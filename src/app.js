@@ -37,20 +37,16 @@ app.post("/api/spidey", (req,res)=>{
     res.send(req.body)
 })
 
-app.listen(PORT, ()=> {
-            console.log(`app listening on port ${PORT}`);
-        })
+const start = async() => {
+    try {await mongoose.connect("mongodb+srv://umamkhan:horseadra@cluster0.qhqamwv.mongodb.net/?retryWrites=true&w=majority");
 
-// const start = async() => {
-//     try {await mongoose.connect("mongodb+srv://umamkhan:horseadra@cluster0.qhqamwv.mongodb.net/?retryWrites=true&w=majority");
+    app.listen(PORT, ()=> {
+        console.log(`app listening on port ${PORT}`);
+    })}
+    catch(err)
+    {
+        console.log(err.message)
+    }
+}
 
-//     app.listen(PORT, ()=> {
-//         console.log(`app listening on port ${PORT}`);
-//     })}
-//     catch(err)
-//     {
-//         console.log(err.message)
-//     }
-// }
-
-// start();
+start();
