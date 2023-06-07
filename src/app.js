@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose")
 const dotenv = require("dotenv");
+const Customer = require("./models/Customer")
 
 if(process.env.NODE_ENV !== 'production')
 {
@@ -26,11 +27,17 @@ const json = {
 		"movie": ["venom", "smart"]
 	}
 }
+
+const customer = new Customer({
+    name: "peter",
+    power: "webswinger"
+});
+customer.save();
 app.get('/api/spidey' , (req, res) => {
     res.send({"data" : json.powers});
 })
 app.get('/', (req, res) =>{
-    res.send("hello brother")
+    res.send(customer)
 })
 // by DEFAULT browser uses GET
 //res is the response object of the current request, and res.send() is used to send the response can contain text, html ,json 
