@@ -1,5 +1,13 @@
 const express = require("express");
 const mongoose = require("mongoose")
+const dotenv = require("dotenv");
+
+if(process.env.NODE_ENV !== 'production')
+{
+    dotenv.config();
+}
+
+
 const app = express(); // creating an instance of it
 mongoose.set('strictQuery', false)
 //to make sure all our data is parsed and body is not undefined, do this
@@ -7,7 +15,8 @@ app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
 //mongodb+srv://umamkhan:<password>@cluster0.qhqamwv.mongodb.net/?retryWrites=true&w=majority
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
+const CONNECT = process.env.CONNECT;
 
 const json = {
 	"name": "miles",
@@ -38,8 +47,9 @@ app.post("/api/spidey", (req,res)=>{
 })
 
 const start = async() => {
-    try {await mongoose.connect("mongodb+srv://umamkhan:horseadra@cluster0.qhqamwv.mongodb.net/?retryWrites=true&w=majority");
-
+    try {await mongoose.connect(CONNECT);
+// we have to NOT show our connection string
+// we should read it from a file locally on our system so that not everyone can see it 
     app.listen(PORT, ()=> {
         console.log(`app listening on port ${PORT}`);
     })}
