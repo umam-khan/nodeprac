@@ -29,15 +29,24 @@ const json = {
 }
 
 const customer = new Customer({
-    name: "peter",
-    power: "webswinger"
+    name: "2099",
+    power: "timetravel"
 });
-customer.save();
-app.get('/api/spidey' , (req, res) => {
-    res.send({"data" : json.powers});
+
+
+app.get('/api/spidey' , async (req, res) => {
+    try {   
+        const result = await Customer.find();
+        res.send({"data" : result } );
+        }
+        catch(e)
+        {
+            res.status(500).json({errorM : e.message})
+        }
+ 
 })
 app.get('/', (req, res) =>{
-    res.send(customer)
+    res.send("welcome !")
 })
 // by DEFAULT browser uses GET
 //res is the response object of the current request, and res.send() is used to send the response can contain text, html ,json 
