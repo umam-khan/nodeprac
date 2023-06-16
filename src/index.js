@@ -68,11 +68,55 @@ app.use(express.json());
 
 // REST APIs -- C R U D
 
-app.get("/",(req,res)=>{
-  // res.send("hello")
-  res.json(data);
+// CREATE - POST , /product
+//req.body se bhejre data
+app.post("/product",(req,res)=>{
+ products.push(req.body)
+  res.send(req.body);
 })
 
+
+// READ - GET , /products ,read all products
+app.get("/products",(req,res)=>{
+  res.send(products);
+})
+//read one product, /products/:id , url params used
+app.get("/products/:id",(req,res)=>{
+  // console.log(req.params)
+  const id = +req.params.id; // to make it into number from string
+  const product = products.find( p => p.id === id)
+  console.log(product);
+  res.send(product);
+})
+
+//UPDATE - PUT (overwrite with new data)
+app.put("/products/:id",(req,res)=>{
+  const id = +req.params.id;
+  const productIndex = products.findIndex(p => p.id===id)
+  // we will do this in db but in dealing with arrays
+  //.splice(startindex, deletecount, items to be added)
+  products.splice(productIndex, 1 , {...req.body,id:id})
+  // res.send(products[productIndex])
+  res.status(201);
+})
+//PATCH - modify the data partially
+app.patch("/products/:id",(req,res)=>{
+  const id = +req.params.id;
+  const productIndex = products.findIndex(p => p.id===id)
+  const product = products[productIndex]
+  //spread operator is {...original, toBeReplaced}
+  products.splice(productIndex,1,{...product, ...req.body})
+})
+
+//DELETE - DELETE 
+app.delete("/products/:id",(req,res)=>{
+  const id = +req.params.id;
+  const productIndex = products.findIndex(p => p.id===id)
+  const product = products[productIndex]
+  //spread operator is {...original, toBeReplaced}
+  products.splice(productIndex,1)
+  res.send("done");
+})
 app.listen(3000,()=>{
   console.log("server started")
 })
