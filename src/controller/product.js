@@ -2,7 +2,7 @@ const fs = require("fs");
 
 const data = JSON.parse(fs.readFileSync('C:\\Users\\MUBEEN K.000\\Desktop\\nodeprac\\customers\\src'+"\\data.json","utf-8"))
 //we got string data, so we do JSON.parse() to convert string to JSON
-console.log(typeof data);
+// console.log(typeof data);
 const products = data.products;
 
 exports.create = (req,res)=>{
@@ -45,4 +45,4 @@ exports.create = (req,res)=>{
     res.send("done");
   }
 
- 
+ //exporting all of these
