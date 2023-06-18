@@ -3,6 +3,7 @@ const router = express.Router();
 const productController = require("../controller/product")
 
 // REST APIs -- C R U D
+
 // CREATE - POST , /product
 //req.body se bhejre data
 router.post("/",productController.create)
