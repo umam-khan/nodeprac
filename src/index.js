@@ -2,12 +2,14 @@ const express = require("express");
 const cors = require("cors")
 const app = express();
 const productRouter = require("./routes/product")
+const userRouter = require("./routes/user")
 
 
 //built in middleware, bodyParser type
 app.use(cors()); // for CORS, you can also manually set the cors headers
 app.use(express.json());
-app.use('/api',productRouter.router);
+app.use('/products',productRouter.router);
+app.use('/users',userRouter.router);
 // all files from "public" folder can be accessed by static
 // app.use(express.static("public"));
 
@@ -15,7 +17,7 @@ app.listen(3000,()=>{
   console.log("server started")
 })
 
-
+// NOTES : 
 //making middleware, this1 acts as a logger of sorts, jo bhi request data aa raha hai 
 // app.use((req,res,next)=>{
 //   console.log(req.method,req.url,req.hostname,req.ip,req.get("User-Agent"), new Date());
