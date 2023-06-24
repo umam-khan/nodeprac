@@ -3,6 +3,32 @@ const cors = require("cors");
 const app = express();
 const productRouter = require("./routes/product");
 const userRouter = require("./routes/user");
+const mongoose = require("mongoose");
+
+//db
+
+const connectDB = async() =>{
+  try{
+    await mongoose.connect("mongodb+srv://umamkhan:nP2oomDs61COw0tj@cluster0.6umualh.mongodb.net/?retryWrites=true&w=majority",
+    {
+      useUnifiedTopology:true,
+      useNewUrlParser:true
+    })
+  }catch(err)
+  {
+    console.log(err)
+  }
+}
+
+connectDB();
+
+const productSchema = new mongoose.Schema({
+  "title" : String
+})
+
+const Product = mongoose.model("Product",productSchema);
+const product = new Product({ title: 'yolo' });
+product.save();
 
 //built in middleware, bodyParser type
 app.use(cors()); // for CORS, you can also manually set the cors headers
@@ -14,9 +40,13 @@ app.use("/users", userRouter.router);
 // all files from "public" folder can be accessed by static
 // app.use(express.static("public"));
 
-app.listen(3000, () => {
+mongoose.connection.once("open",()=>{
+  console.log("connected to db");
+  app.listen(3000, () => {
   console.log("server started");
 });
+})
+
 
 // NOTES :
 //making middleware, this1 acts as a logger of sorts, jo bhi request data aa raha hai
