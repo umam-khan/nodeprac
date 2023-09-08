@@ -1,18 +1,25 @@
-const fs = require("fs");
+// const fs = require("fs");
 
-const data = JSON.parse(fs.readFileSync('C:\\Users\\MUBEEN K.000\\Desktop\\nodeprac\\customers\\src'+"\\data.json","utf-8"))
-//we got string data, so we do JSON.parse() to convert string to JSON
-// console.log(typeof data);
-const products = data.products;
+// const data = JSON.parse(fs.readFileSync('C:\\Users\\MUBEEN K.000\\Desktop\\nodeprac\\customers\\src'+"\\data.json","utf-8"))
+// //we got string data, so we do JSON.parse() to convert string to JSON
+// // console.log(typeof data);
+// const products = data.products;
+const model = require("../model/productModel")
+const Product = model.Product;
 
 exports.create = (req,res)=>{
-    products.push(req.body)
-     res.send(req.body);
+    const product = new Product();
+    product.title = "iphone 1111"
+    product.save((err,doc)=>{
+      console.log({err,doc})
+    })
+    res.send("done")
    }
-   exports.getAll = (req,res)=>{
+
+exports.getAll = (req,res)=>{
     res.send(products);
   }
-  exports.getOne = (req,res)=>{
+exports.getOne = (req,res)=>{
     // console.log(req.params)
     const id = +req.params.id; // to make it into number from string
     const product = products.find( p => p.id === id)
